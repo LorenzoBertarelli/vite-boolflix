@@ -1,9 +1,15 @@
 <script>
+import { store } from "../store";
 import AppCard from "./AppCard.vue";
 export default {
     name: "AppMain",
     components: {
         AppCard
+    },
+    data() {
+        return {
+            store
+        }
     }
 }
 </script>
@@ -13,26 +19,17 @@ export default {
         <div class="container">
             <h2>Film</h2>
             <div class="row">
-                <div class="col">
-                    <AppCard />
-                </div>
-                <div class="col">
-                    <AppCard />
-                </div>
-                <div class="col">
-                    <AppCard />
-                </div>
-                <div class="col">
-                    <AppCard />
+                <div class="col" v-for="movie in store.movies">
+                    <AppCard :movie="movie"/>
                 </div>
             </div>
         </div>
+        
     </main>
 </template>
 
 <style scoped lang="scss">
 main {
-    padding: 80px 0;
     .container {
         max-width: 1200px;
         width: 90%;
@@ -49,7 +46,7 @@ main {
             .col {
                 width: calc(100% / 4 - 15px);
                 border: 1px solid black;
-                height: 400px;
+                height: none;
             }
         }
     }

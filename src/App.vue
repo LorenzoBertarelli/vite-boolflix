@@ -15,17 +15,35 @@ export default {
     }
   },
   mounted() {
-    store.loading = true;
-    axios.get("https://api.themoviedb.org/3/search/movie?api_key=053a77122cd0176bd34ec4c89fa6aeb3")
-          .then((resp) => {
-            this.store.links = resp.data.results;
-          })
+
   },
-}
+  methods: {
+    performSearch() {
+      console.log("ciao");
+      if(this.store.searchKey) {
+        this.getMovies();
+      }
+    },
+    getMovies() {
+      this.store.loading = false;
+      
+    axios.get(`${this.store.apiUrl}/search/movie`, {
+      params: {
+        api_key: this.store.apiKey,
+        query: this.store.searchKey
+      }
+      }).then((resp) => {
+        console.log(resp);
+        this.store.movies = resp.data.results;
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+}}
 </script>
 
 <template>
-<AppHeader />
+<AppHeader @search="performSearch"/>
 <AppMain />
 </template>
 
