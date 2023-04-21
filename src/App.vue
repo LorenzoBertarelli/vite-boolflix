@@ -14,14 +14,12 @@ export default {
       store
     }
   },
-  mounted() {
-
-  },
   methods: {
     performSearch() {
       console.log("ciao");
       if(this.store.searchKey) {
-        this.getMovies();
+        this.getMovies(),
+        this.getSeries();
       }
     },
     getMovies() {
@@ -35,6 +33,19 @@ export default {
       }).then((resp) => {
         console.log(resp);
         this.store.movies = resp.data.results;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    getSeries() {
+    axios.get(`${this.store.apiUrl}/search/tv`, {
+      params: {
+        api_key: this.store.apiKey,
+        query: this.store.searchKey
+      }
+      }).then((resp) => {
+        console.log(resp);
+        this.store.seriesTV = resp.data.results;
       }).catch(err => {
         console.log(err);
       })
