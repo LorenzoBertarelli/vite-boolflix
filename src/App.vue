@@ -23,7 +23,8 @@ export default {
       }
     },
     getMovies() {
-      this.store.loading = false;
+      this.store.loading = true;
+      console.log('loading');
       
     axios.get(`${this.store.apiUrl}/search/movie`, {
       params: {
@@ -35,9 +36,15 @@ export default {
         this.store.movies = resp.data.results;
       }).catch(err => {
         console.log(err);
+      }).finally( () => {
+        this.store.loading = false
+        console.log( 'stop loading');
       })
     },
     getSeries() {
+      this.store.loading = true;
+      console.log('loading');
+
     axios.get(`${this.store.apiUrl}/search/tv`, {
       params: {
         api_key: this.store.apiKey,
@@ -48,6 +55,9 @@ export default {
         this.store.seriesTV = resp.data.results;
       }).catch(err => {
         console.log(err);
+      }).finally( () => {
+        this.store.loading = false
+        console.log( 'stop loading');
       })
     }
 }}
